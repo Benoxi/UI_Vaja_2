@@ -32,6 +32,9 @@
             this.PlayBtn = new System.Windows.Forms.Button();
             this.LevelBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.Xcoord = new System.Windows.Forms.Label();
+            this.Ycoord = new System.Windows.Forms.Label();
+            this.WarningLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GameBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,6 +46,7 @@
             this.GameBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.GameBox.TabIndex = 0;
             this.GameBox.TabStop = false;
+            this.GameBox.Click += new System.EventHandler(this.GameBox_Click);
             // 
             // PlayBtn
             // 
@@ -82,11 +86,41 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "LEVEL:";
             // 
+            // Xcoord
+            // 
+            this.Xcoord.AutoSize = true;
+            this.Xcoord.Location = new System.Drawing.Point(715, 98);
+            this.Xcoord.Name = "Xcoord";
+            this.Xcoord.Size = new System.Drawing.Size(13, 13);
+            this.Xcoord.TabIndex = 4;
+            this.Xcoord.Text = "0";
+            this.Xcoord.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // Ycoord
+            // 
+            this.Ycoord.AutoSize = true;
+            this.Ycoord.Location = new System.Drawing.Point(715, 137);
+            this.Ycoord.Name = "Ycoord";
+            this.Ycoord.Size = new System.Drawing.Size(13, 13);
+            this.Ycoord.TabIndex = 5;
+            this.Ycoord.Text = "0";
+            // 
+            // WarningLbl
+            // 
+            this.WarningLbl.AutoSize = true;
+            this.WarningLbl.Location = new System.Drawing.Point(675, 181);
+            this.WarningLbl.Name = "WarningLbl";
+            this.WarningLbl.Size = new System.Drawing.Size(0, 13);
+            this.WarningLbl.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.WarningLbl);
+            this.Controls.Add(this.Ycoord);
+            this.Controls.Add(this.Xcoord);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.LevelBox);
             this.Controls.Add(this.PlayBtn);
@@ -106,6 +140,9 @@
         private System.Windows.Forms.Button PlayBtn;
         private System.Windows.Forms.ComboBox LevelBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label Xcoord;
+        private System.Windows.Forms.Label Ycoord;
+        private System.Windows.Forms.Label WarningLbl;
     }
 }
 
