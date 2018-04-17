@@ -22,7 +22,7 @@ namespace UI_Vaja_2
             InitializeComponent();
         }
 
-        void DISPLAY(int[,] a)
+        void DISPLAY()
         {
             Graphics g1;
 
@@ -52,12 +52,12 @@ namespace UI_Vaja_2
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if(a[i,j] == 1)
+                    if(Board[i,j] == 1)
                     {
                         drawPoint = new PointF((0 + (i * 216)), (0 + (j * 216)));
                         g1.DrawString(drawX, drawFont, drawBrush, drawPoint);
                     }
-                    else if (a[i, j] == 2)
+                    else if (Board[i, j] == 2)
                     {
                         drawPoint = new PointF((0 + (i * 216)), (0 + (j * 216)));
                         g1.DrawString(drawO, drawFont, drawBrush, drawPoint);
@@ -91,7 +91,7 @@ namespace UI_Vaja_2
                     }
                     if(i == 2)
                     {
-                        if (a[i, 2] == 1 && a[i - 1, 1] == 1 && a[i - 2, 0] == 1)
+                        if (a[i, 0] == 1 && a[i - 1, 1] == 1 && a[i - 2, 2] == 1)
                         {
                             return 1;
                         }
@@ -112,7 +112,7 @@ namespace UI_Vaja_2
                     }
                     if (i == 2)
                     {
-                        if (a[i, 2] == 2 && a[i - 1, 1] == 2 && a[i - 2, 0] == 2)
+                        if (a[i, 0] == 2 && a[i - 1, 1] == 2 && a[i - 2, 2] == 2)
                         {
                             return 2;
                         }
@@ -137,6 +137,51 @@ namespace UI_Vaja_2
             return 0; 
         }
 
+        int HEURISTICS(int[,] a, int player) //checks all 8 posible good outcomes if they are taken 
+        {
+            int taken_line = 0;
+
+            if(a[0, 0] == player || a[0, 1] == player || a[0, 2] == player)
+            {
+                taken_line++;
+            }
+            if (a[1, 0] == player || a[1, 1] == player || a[1, 2] == player)
+            {
+                taken_line++;
+            }
+            if (a[2, 0] == player || a[2, 1] == player || a[2, 2] == player)
+            {
+                taken_line++;
+            }
+            if (a[0, 0] == player || a[1, 0] == player || a[2, 0] == player)
+            {
+                taken_line++;
+            }
+            if (a[0, 1] == player || a[1, 1] == player || a[2, 1] == player)
+            {
+                taken_line++;
+            }
+            if (a[0, 2] == player || a[1, 2] == player || a[2, 2] == player)
+            {
+                taken_line++;
+            }
+            if (a[0, 2] == player || a[1, 1] == player || a[2, 0] == player)
+            {
+                taken_line++;
+            }
+            if (a[2, 0] == player || a[1, 1] == player || a[0, 2] == player)
+            {
+                taken_line++;
+            }
+
+            return (8-taken_line); 
+        }
+
+        void MINIMAKS()
+        {
+
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -157,7 +202,9 @@ namespace UI_Vaja_2
                 }
             }
 
-            DISPLAY(Board);
+            Board[1, 0] = 2;
+
+            DISPLAY();
 
         }
 
@@ -168,6 +215,21 @@ namespace UI_Vaja_2
             Console.WriteLine("Level je: " + level);
 
 
+        }
+
+        void CLEAR()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Board[i, j] = 0;
+                }
+            }
+            
+
+            DISPLAY();
+            
         }
 
         private void GameBox_Click(object sender, EventArgs e)
@@ -199,31 +261,36 @@ namespace UI_Vaja_2
             }
 
 
-            DISPLAY(Board);
-
+            DISPLAY();
 
             int a = STATE(Board);
 
-            if(a != 0)
+            int heuP = (HEURISTICS(Board, 2) - HEURISTICS(Board, 1));
+
+            WarningLbl.Text = "h(P): " + heuP;
+            
+
+            if (a != 0)
             {
                 if(a == 1)
                 {
                     WarningLbl.Text = "Zmagal je igralec X";
+                    CLEAR();
 
                 }
                 if (a == 2)
                 {
                     WarningLbl.Text = "Zmagal je igralec O";
-                    
+                    CLEAR();
                 }
             }
-
+            
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void ResetBtn_Click(object sender, EventArgs e)
         {
-
+            CLEAR();
         }
     }
 }

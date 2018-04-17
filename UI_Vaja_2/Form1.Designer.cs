@@ -35,6 +35,7 @@
             this.Xcoord = new System.Windows.Forms.Label();
             this.Ycoord = new System.Windows.Forms.Label();
             this.WarningLbl = new System.Windows.Forms.Label();
+            this.ResetBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GameBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +53,7 @@
             // 
             this.PlayBtn.Location = new System.Drawing.Point(675, 612);
             this.PlayBtn.Name = "PlayBtn";
-            this.PlayBtn.Size = new System.Drawing.Size(297, 37);
+            this.PlayBtn.Size = new System.Drawing.Size(300, 40);
             this.PlayBtn.TabIndex = 1;
             this.PlayBtn.Text = "PLAY";
             this.PlayBtn.UseVisualStyleBackColor = true;
@@ -94,7 +95,6 @@
             this.Xcoord.Size = new System.Drawing.Size(13, 13);
             this.Xcoord.TabIndex = 4;
             this.Xcoord.Text = "0";
-            this.Xcoord.Click += new System.EventHandler(this.label2_Click);
             // 
             // Ycoord
             // 
@@ -113,11 +113,22 @@
             this.WarningLbl.Size = new System.Drawing.Size(0, 13);
             this.WarningLbl.TabIndex = 6;
             // 
+            // ResetBtn
+            // 
+            this.ResetBtn.Location = new System.Drawing.Point(675, 569);
+            this.ResetBtn.Name = "ResetBtn";
+            this.ResetBtn.Size = new System.Drawing.Size(300, 40);
+            this.ResetBtn.TabIndex = 7;
+            this.ResetBtn.Text = "RESET";
+            this.ResetBtn.UseVisualStyleBackColor = true;
+            this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.ResetBtn);
             this.Controls.Add(this.WarningLbl);
             this.Controls.Add(this.Ycoord);
             this.Controls.Add(this.Xcoord);
@@ -143,6 +154,7 @@
         private System.Windows.Forms.Label Xcoord;
         private System.Windows.Forms.Label Ycoord;
         private System.Windows.Forms.Label WarningLbl;
+        private System.Windows.Forms.Button ResetBtn;
     }
 }
 
