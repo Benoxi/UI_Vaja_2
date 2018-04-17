@@ -69,6 +69,74 @@ namespace UI_Vaja_2
 
         }
 
+        int STATE(int[,]a)
+        {
+
+            int j = 0;
+
+            for(int i = 0; i < 3; i++)
+            {
+                if (a[i, j] != 0)
+                {
+                    if (i == 0)
+                    {
+                        if (a[i, 0] == 1 && a[i + 1, 1] == 1 && a[i + 2, 2] == 1)
+                        {
+                            return 1;
+                        }
+                    }
+                    if (a[i, 0] == 1 && a[i, 1] == 1 && a[i, 2] == 1)
+                    {
+                        return 1;
+                    }
+                    if(i == 2)
+                    {
+                        if (a[i, 2] == 1 && a[i - 1, 1] == 1 && a[i - 2, 0] == 1)
+                        {
+                            return 1;
+                        }
+                    }
+
+
+
+                    if (i == 0)
+                    {
+                        if (a[i, 0] == 2 && a[i + 1, 1] == 2 && a[i + 2, 2] == 2)
+                        {
+                            return 2;
+                        }
+                    }
+                    if (a[i, 0] == 2 && a[i, 1] == 2 && a[i, 2] == 2)
+                    {
+                        return 2;
+                    }
+                    if (i == 2)
+                    {
+                        if (a[i, 2] == 2 && a[i - 1, 1] == 2 && a[i - 2, 0] == 2)
+                        {
+                            return 2;
+                        }
+                    }
+
+                }
+            }
+            j = 0;
+            for(int k = 0; k < 3; k++)
+            {
+                if (a[0, k] == 1 && a[1, k] == 1 && a[2, k] == 1)
+                {
+                    return 1;
+                }
+                if (a[0, k] == 2 && a[1, k] == 2 && a[2, k] == 2)
+                {
+                    return 2;
+                }
+
+            }
+
+            return 0; 
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -76,6 +144,7 @@ namespace UI_Vaja_2
             {
                 for(int j = 0; j < 3; j++)
                 {
+                    /*
                     if(((i+j)%2) == 0)
                     {
                         Board[i, j] = 1;
@@ -83,7 +152,8 @@ namespace UI_Vaja_2
                     else
                     {
                         Board[i, j] = 2;
-                    }
+                    }*/
+                    Board[i, j] = 0;
                 }
             }
 
@@ -127,8 +197,26 @@ namespace UI_Vaja_2
             {
                 WarningLbl.Text = "Field x: " + x + " y: " + y + " already taken!!!" ;
             }
+
+
             DISPLAY(Board);
 
+
+            int a = STATE(Board);
+
+            if(a != 0)
+            {
+                if(a == 1)
+                {
+                    WarningLbl.Text = "Zmagal je igralec X";
+
+                }
+                if (a == 2)
+                {
+                    WarningLbl.Text = "Zmagal je igralec O";
+                    
+                }
+            }
 
 
         }
