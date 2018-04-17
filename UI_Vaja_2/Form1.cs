@@ -14,6 +14,15 @@ namespace UI_Vaja_2
 
     public partial class Form1 : Form
     {
+       public class BoardState
+        {
+            public int[,] board { get; set; }
+            public int heu { get; set; }
+            public int ocena { get; set; }
+            public BoardState next { get; set; }
+
+        }
+
 
         int[,] Board = new int[3, 3];
 
@@ -137,7 +146,7 @@ namespace UI_Vaja_2
             return 0; 
         }
 
-        int HEURISTICS(int[,] a, int player) //checks all 8 posible good outcomes if they are taken 
+        int HEURISTICS_PLAYER(int[,] a, int player) //checks all 8 posible good outcomes if they are taken 
         {
             int taken_line = 0;
 
@@ -177,8 +186,58 @@ namespace UI_Vaja_2
             return (8-taken_line); 
         }
 
-        void MINIMAKS()
+        int HEURISTICS(int[,] a)
         {
+            return (HEURISTICS_PLAYER(a, 2) - HEURISTICS_PLAYER(Board, 1));
+        }
+        
+        int DYNAMIC_GRADE(BoardState P, int player)
+        {
+            while(P.next != null)
+            {
+                if (player == 1)
+                {
+                    if (P.ocena < P.next.ocena)
+                    {
+                        P.ocena = P.next.ocena;
+                    }
+                    P = P.next;
+                }
+                else if(player == 2)
+                {
+                    if (P.ocena > P.next.ocena)
+                    {
+                        P.ocena = P.next.ocena;
+                    }
+                    P = P.next;
+
+                }
+            }
+
+            return P.ocena;
+        }
+
+
+
+        BoardState OMEJENI_MINIMAKS(BoardState P, int player, int d)
+        {
+            if(P.next == null || d == 0)
+            {
+                P.heu = HEURISTICS(P.board);
+                return P;
+            }
+            if(player == 1)
+            {
+                P.ocena = -100000;
+            }
+            else if(player == 2)
+            {
+                P.ocena = 100000;
+            }
+            
+
+
+            return P;
 
         }
 
@@ -265,7 +324,7 @@ namespace UI_Vaja_2
 
             int a = STATE(Board);
 
-            int heuP = (HEURISTICS(Board, 2) - HEURISTICS(Board, 1));
+            int heuP = HEURISTICS(Board);
 
             WarningLbl.Text = "h(P): " + heuP;
             
