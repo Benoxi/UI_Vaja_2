@@ -96,7 +96,7 @@
             this.Xcoord.Name = "Xcoord";
             this.Xcoord.Size = new System.Drawing.Size(13, 13);
             this.Xcoord.TabIndex = 4;
-            this.Xcoord.Text = "0";
+            this.Xcoord.Text = "";
             // 
             // Ycoord
             // 
@@ -105,7 +105,7 @@
             this.Ycoord.Name = "Ycoord";
             this.Ycoord.Size = new System.Drawing.Size(13, 13);
             this.Ycoord.TabIndex = 5;
-            this.Ycoord.Text = "0";
+            this.Ycoord.Text = "";
             // 
             // WarningLbl
             // 
@@ -127,16 +127,16 @@
             // 
             // AlgorithmBox
             // 
-            this.AlgorithmBox.DisplayMember = "MINIMAX BY DEPTH";
+            this.AlgorithmBox.DisplayMember = "ALPHA-BETA";
             this.AlgorithmBox.FormattingEnabled = true;
             this.AlgorithmBox.Items.AddRange(new object[] {
-            "MINIMAX BY DEPTH",
-            "ALPHA-BETA"});
+            "ALPHA-BETA",
+            "MINIMAX BY DEPTH"});
             this.AlgorithmBox.Location = new System.Drawing.Point(757, 67);
             this.AlgorithmBox.Name = "AlgorithmBox";
             this.AlgorithmBox.Size = new System.Drawing.Size(215, 21);
             this.AlgorithmBox.TabIndex = 9;
-            this.AlgorithmBox.Text = "MINIMAX BY DEPTH";
+            this.AlgorithmBox.Text = "ALPHA-BETA";
             // 
             // lablelAlg
             // 
