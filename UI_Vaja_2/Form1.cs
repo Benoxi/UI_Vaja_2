@@ -241,7 +241,7 @@ namespace UI_Vaja_2
 
             List<BoardState> M = new List<BoardState>();
 
-            A.Reset();
+            //A.Reset(); // poteza = NULL
 
             M = MOVES(P, player);
 
@@ -250,15 +250,15 @@ namespace UI_Vaja_2
 
             foreach (var m in M)
             {
-                R.setBoard(m.getBoard());
+                R.setBoard(m.getBoard()); // R = mi od P
 
                 if (player == 1)
                 {
-                    G = ALPHA_BETA(R, 2, (d - 1),alpha,beta);
+                    G = ALPHA_BETA(R, 2, (d - 1), alpha, beta);
                 }
                 else if (player == 2)
                 {
-                    G = ALPHA_BETA(R, 1, (d - 1),alpha,beta);
+                    G = ALPHA_BETA(R, 1, (d - 1), alpha, beta);
                 }
                 else
                 {
@@ -266,20 +266,20 @@ namespace UI_Vaja_2
                 }
                 if(player == 1 && G.getOcena() > A.getStaticOcena())  //ALPHA
                 {
-                    A.setOnlyBoard(m.getBoard());
                     A.setOcena(G.getOcena());
-                    if(A.getStaticOcena() > alpha)
+                    A.setOnlyBoard(m.getBoard());
+                    if (A.getOcena() > alpha)
                     {
-                        alpha = A.getStaticOcena();
+                        alpha = A.getOcena();
                     }
                 }
                 else if (player == 2 && G.getOcena() < A.getStaticOcena())  //BETA
                 {
-                    A.setOnlyBoard(m.getBoard());
                     A.setOcena(G.getOcena());
-                    if (A.getStaticOcena() < beta)
+                    A.setOnlyBoard(m.getBoard());
+                    if (A.getOcena() < beta)
                     {
-                        beta = A.getStaticOcena();
+                        beta = A.getOcena();
                     }
                 }
                 if (alpha >= beta)
@@ -361,6 +361,7 @@ namespace UI_Vaja_2
 
         private void CLEAR()
         {
+
             GameBoard.Reset();
             DISPLAY();
         }
@@ -368,7 +369,6 @@ namespace UI_Vaja_2
         private void GameBox_Click(object sender, EventArgs e)
         {
             GameBox.Enabled = false;
-
 
             int level = Int32.Parse(LevelBox.Text.ToString());
 
