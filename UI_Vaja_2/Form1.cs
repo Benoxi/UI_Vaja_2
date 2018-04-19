@@ -9,11 +9,29 @@ namespace UI_Vaja_2
     {
         private BoardState GameBoard = new BoardState();
 
-        int current_player = 1;
+        private int current_player = 1;
 
         public Form1()
         {
             InitializeComponent();
+        }
+        /*
+        private int CHECK_STEP(int[,] a, int[,] b)
+        {
+            int step = 0;
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (a[i, j] != b[i, j])
+                    {
+                        step++;
+                    }
+                }
+            }
+
+            return step;
         }
 
         private void WRITE_TO_CONSOLE()
@@ -36,10 +54,9 @@ namespace UI_Vaja_2
                 Console.WriteLine("");
             }
             Console.WriteLine("\n");
-
         }
 
-        private void DEBUG_BOARD(int[,]a)
+        private void DEBUG_BOARD(int[,] a)
         {
             Console.WriteLine("DEBUG_BOARD OUTPUT:  \n");
 
@@ -59,9 +76,8 @@ namespace UI_Vaja_2
                 Console.WriteLine("");
             }
             Console.WriteLine("\n");
-
         }
-
+        */
         private void DISPLAY()
         {
             Graphics g1;
@@ -92,7 +108,7 @@ namespace UI_Vaja_2
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (GameBoard.getBoardAtPosition(i,j) == 1)
+                    if (GameBoard.getBoardAtPosition(i, j) == 1)
                     {
                         drawPoint = new PointF((0 + (j * 216)), (0 + (i * 216)));
                         g1.DrawString(drawX, drawFont, drawBrush, drawPoint);
@@ -109,17 +125,17 @@ namespace UI_Vaja_2
         private int STATE(int[,] a)
         {
             int numZero = 0;
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for(int l = 0; l < 3; l++)
+                for (int l = 0; l < 3; l++)
                 {
-                    if(a[i,l] == 0)
+                    if (a[i, l] == 0)
                     {
                         numZero++;
                     }
                 }
             }
-            if(numZero == 0)
+            if (numZero == 0)
             {
                 return -1;
             }
@@ -192,135 +208,280 @@ namespace UI_Vaja_2
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (P.getBoardAtPosition(i,j) == 0)
+                    if (P.getBoardAtPosition(i, j) == 0)
                     {
                         BoardState newState = new BoardState();
                         newState.setBoard(P.getBoard());
-                        newState.setBoardAtPosition(i,j,player);
+                        newState.setBoardAtPosition(i, j, player);
                         boardStates.Add(newState);
                     }
                 }
             }
-            /*
-            Console.WriteLine("\nFIRST BOARD (INITIAL): ");
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (P.getBoardAtPosition(i,j) > -1)
-                    {
-                        Console.Write(" " + P.getBoardAtPosition(i,j));
-                    }
-                    else
-                    {
-                        Console.Write("" + P.getBoardAtPosition(i,j));
-                    }
-                }
-                Console.WriteLine("");
-            }
-            Console.WriteLine("\n");
-
-
-
-            /*
-            foreach (var BS in boardStates)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (BS.getBoardAtPosition(i,j) > -1)
-                        {
-                            Console.Write(" " + BS.getBoardAtPosition(i,j));
-                        }
-                        else
-                        {
-                            Console.Write("" + BS.getBoardAtPosition(i,j));
-                        }
-                    }
-                    Console.WriteLine("");
-                }
-                Console.WriteLine("");
-            }
-            */
+            
             return boardStates;
         }
 
-        private int CHECK_STEP(int[,] a, int[,] b)
+        private BoardState ALPHA_BETA(BoardState P, int player, int d, int alpha, int beta)
         {
-            int step = 0;
-
-            for(int i = 0; i < 3; i++)
-            {
-                for(int j = 0; j < 3; j++)
-                {
-                    if(a[i,j] != b[i,j])
-                    {
-                        step++;
-                    }
-                }
-            }
-
-            return step;
-        }
-
-
-        private BoardState OMEJENI_MINIMAKS(BoardState P, int player, int d)
-        {
-
             if (STATE(P.getBoard()) == -1 || d == 0)
             {
+                P.getOcena();
+                P.Reset();
                 return P;
             }
+            BoardState A = new BoardState();
             if (player == 1)
             {
-                P.setOcena(-100000);
+                A.setOcena(-100000);
             }
             else if (player == 2)
             {
-                P.setOcena(100000);
+                A.setOcena(100000);
             }
 
             List<BoardState> M = new List<BoardState>();
 
+            A.Reset();
+
             M = MOVES(P, player);
 
             BoardState R = new BoardState();
-            int step;
+            BoardState G = new BoardState();
 
             foreach (var m in M)
             {
-                //P.setBoard(m.getBoard());
+                R.setBoard(m.getBoard());
+
                 if (player == 1)
                 {
-                    R = OMEJENI_MINIMAKS(m, player + 1, (d - 1));
+                    G = ALPHA_BETA(R, 2, (d - 1),alpha,beta);
                 }
                 else if (player == 2)
                 {
-                    R = OMEJENI_MINIMAKS(m, player - 1, (d - 1));
+                    G = ALPHA_BETA(R, 1, (d - 1),alpha,beta);
                 }
                 else
                 {
                     Console.WriteLine("\n\n\n\n FATAL ERROR ?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?! \n\n\n\n");
                 }
-                //Console.WriteLine("Ocena R: " + R.getOcena() + ". Ocena P: " + P.getOcena());
-                if ((player == 1 && R.getOcena() > P.getOcena()) || (player == 2 && R.getOcena() < P.getOcena()))
+                if(player == 1 && G.getOcena() > A.getStaticOcena())  //ALPHA
                 {
-                    P.setBoard(R.getBoard());
+                    A.setOnlyBoard(m.getBoard());
+                    A.setOcena(G.getOcena());
+                    if(A.getStaticOcena() > alpha)
+                    {
+                        alpha = A.getStaticOcena();
+                    }
+                }
+                else if (player == 2 && G.getOcena() < A.getStaticOcena())  //BETA
+                {
+                    A.setOnlyBoard(m.getBoard());
+                    A.setOcena(G.getOcena());
+                    if (A.getStaticOcena() < beta)
+                    {
+                        beta = A.getStaticOcena();
+                    }
+                }
+                if (alpha >= beta)
+                {
+                    return A;
                 }
             }
-            return P;
+            return A;
+        }
+
+        private BoardState OMEJENI_MINIMAKS(BoardState P, int player, int d)
+        {
+            if (STATE(P.getBoard()) == -1 || d == 0)
+            {
+                P.getOcena();
+                P.Reset();
+                return P;
+            }
+            BoardState A = new BoardState();
+            if (player == 1)
+            {
+                A.setOcena(-100000);
+            }
+            else if (player == 2)
+            {
+                A.setOcena(100000);
+            }
+
+            List<BoardState> M = new List<BoardState>();
+
+            A.Reset();
+
+            M = MOVES(P, player);
+
+            BoardState R = new BoardState();
+            BoardState G = new BoardState();
+
+            foreach (var m in M)
+            {
+                R.setBoard(m.getBoard());
+
+                if (player == 1)
+                {
+                    G = OMEJENI_MINIMAKS(R, player + 1, (d - 1));
+                }
+                else if (player == 2)
+                {
+                    G = OMEJENI_MINIMAKS(R, player - 1, (d - 1));
+                }
+                else
+                {
+                    Console.WriteLine("\n\n\n\n FATAL ERROR ?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?!?! \n\n\n\n");
+                }
+                if ((player == 1 && G.getOcena() > A.getStaticOcena()) || (player == 2 && G.getOcena() < A.getStaticOcena()))
+                {
+                    A.setOnlyBoard(m.getBoard());
+                    A.setOcena(G.getOcena());
+                }
+            }
+            return A;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             GameBoard.Reset();
 
-            GameBox.Enabled = false;          
+            GameBox.Enabled = false;
+            //PlayAI.Enabled = false;
 
             DISPLAY();
         }
 
+        private void PlayBtn_Click(object sender, EventArgs e)
+        {
+            int level = Int32.Parse(LevelBox.Text.ToString());
+
+            GameBox.Enabled = true;
+        }
+
+        private void CLEAR()
+        {
+            GameBoard.Reset();
+            DISPLAY();
+        }
+
+        private void GameBox_Click(object sender, EventArgs e)
+        {
+            GameBox.Enabled = false;
+
+
+            int level = Int32.Parse(LevelBox.Text.ToString());
+
+            MouseEventArgs MC = (MouseEventArgs)e;
+            Point coordinates = MC.Location;
+
+            int x, y;
+            x = coordinates.X - 8;
+            y = coordinates.Y - 8;
+
+            //Xcoord.Text = x.ToString();
+            //Ycoord.Text = y.ToString();
+            x = (int)(x / 210);
+            y = (int)(y / 210);
+
+            int correct_move = 0;
+
+            if (x > 2)
+            {
+                x = 2;
+            }
+            if (y > 2)
+            {
+                y = 2;
+            }
+
+            if (GameBoard.getBoardAtPosition(y, x) == 0)
+            {
+                GameBoard.setBoardAtPosition(y, x, 1);
+                //WarningLbl.Text = "Set board at x: " + y + " y: " + x + " !";
+                correct_move = 1;
+            }
+            else
+            {
+                WarningLbl.Text = "Field x: " + y + " y: " + x + " already taken!!!";
+                correct_move = 0;
+            }
+
+            DISPLAY();
+
+            int a = STATE(GameBoard.getBoard());
+
+            if (a != 0)
+            {
+                if (a == 1)
+                {
+                    GameBox.Enabled = false;
+                    WarningLbl.Text = "Zmagal je igralec X";
+                    return;
+                }
+                if (a == 2)
+                {
+                    GameBox.Enabled = false;
+                    WarningLbl.Text = "Zmagal je igralec O";
+                    return;
+                }
+                if (a == -1)
+                {
+                    GameBox.Enabled = false;
+                    WarningLbl.Text = "Ni zmagovalca !";
+                    return;
+                }
+            }
+            if (correct_move == 1)
+            {
+                if(AlgorithmBox.Text.ToString().Equals("MINIMAX BY DEPTH"))
+                {
+                    GameBoard = OMEJENI_MINIMAKS(GameBoard, 2, level);
+                }
+                else if (AlgorithmBox.Text.ToString().Equals("ALPHA-BETA"))
+                {
+                    int alpha = -100000;
+                    int beta = 100000;
+                    GameBoard = ALPHA_BETA(GameBoard, 2, level, alpha, beta);
+                }
+            }
+
+            DISPLAY();
+
+            GameBox.Enabled = true;
+
+            a = STATE(GameBoard.getBoard());
+
+            if (a != 0)
+            {
+                if (a == 1)
+                {
+                    GameBox.Enabled = false;
+                    WarningLbl.Text = "Zmagal je igralec X";
+                    return;
+                }
+                if (a == 2)
+                {
+                    GameBox.Enabled = false;
+                    WarningLbl.Text = "Zmagal je igralec O";
+                    return;
+                }
+                if (a == -1)
+                {
+                    GameBox.Enabled = false;
+                    WarningLbl.Text = "Ni zmagovalca !";
+                    return;
+                }
+            }
+        }
+
+        private void ResetBtn_Click(object sender, EventArgs e)
+        {
+            CLEAR();
+            GameBox.Enabled = false;
+        }
+
+        /*
         private void PlayAI_Click(object sender, EventArgs e)
         {
             int level = Int32.Parse(LevelBox.Text.ToString());
@@ -334,7 +495,6 @@ namespace UI_Vaja_2
                 GameBoard = OMEJENI_MINIMAKS(GameBoard, current_player, level);
 
                 DISPLAY();
-
 
                 if (current_player == 1)
                 {
@@ -355,137 +515,24 @@ namespace UI_Vaja_2
                     {
                         WarningLbl.Text = "Zmagal je igralec X";
                         WRITE_TO_CONSOLE();
-                        break;
+                        return;
                     }
                     if (a == 2)
                     {
                         WarningLbl.Text = "Zmagal je igralec O";
                         WRITE_TO_CONSOLE();
-                        break;
+                        return;
                     }
                     if (a == -1)
                     {
                         WarningLbl.Text = "Ni zmagovalca !";
                         WRITE_TO_CONSOLE();
-                        break;
+                        return;
                     }
                 }
             }
         }
+        */
 
-        private void PlayBtn_Click(object sender, EventArgs e)
-        {
-            int level = Int32.Parse(LevelBox.Text.ToString());
-
-            GameBox.Enabled = true;
-
-        }
-
-        private void CLEAR()
-        {
-            GameBoard.Reset();
-            DISPLAY();
-        }
-
-        private void GameBox_Click(object sender, EventArgs e)
-        {
-
-            GameBox.Enabled = false;
-
-            int a = STATE(GameBoard.getBoard());
-
-            if (a != 0)
-            {
-                if (a == 1)
-                {
-                    WarningLbl.Text = "Zmagal je igralec X";
-                    WRITE_TO_CONSOLE();
-                }
-                if (a == 2)
-                {
-                    WarningLbl.Text = "Zmagal je igralec O";
-                    WRITE_TO_CONSOLE();
-                }
-                if (a == -1)
-                {
-                    WarningLbl.Text = "Ni zmagovalca !";
-                    WRITE_TO_CONSOLE();
-                }
-            }
-
-
-            int level = Int32.Parse(LevelBox.Text.ToString());
-
-            MouseEventArgs MC = (MouseEventArgs)e;
-            Point coordinates = MC.Location;
-
-            int x, y;
-            x = coordinates.X - 8;
-            y = coordinates.Y - 8;
-
-            Xcoord.Text = x.ToString();
-            Ycoord.Text = y.ToString();
-            x = (int)(x / 210);
-            y = (int)(y / 210);
-
-            if(x > 2)
-            {
-                x = 2;
-            }
-            if(y > 2)
-            {
-                y = 2;
-            }
-
-            if (GameBoard.getBoardAtPosition(y,x) == 0)
-            {
-                GameBoard.setBoardAtPosition(y, x, 1);
-                WarningLbl.Text = "Set board at x: " + y + " y: " + x + " !";
-            }
-            else
-            {
-                WarningLbl.Text = "Field x: " + y + " y: " + x + " already taken!!!";
-            }
-
-            DISPLAY();
-
-            GameBoard = OMEJENI_MINIMAKS(GameBoard, 2, level);
-
-            DISPLAY();
-
-            a = STATE(GameBoard.getBoard()); 
-
-            if (a != 0)
-            {
-                if (a == 1)
-                {
-                    WarningLbl.Text = "Zmagal je igralec X";
-                    WRITE_TO_CONSOLE();
-                    GameBox.Enabled = false;
-                }
-                if (a == 2)
-                {
-                    WarningLbl.Text = "Zmagal je igralec O";
-                    WRITE_TO_CONSOLE();
-                    GameBox.Enabled = false;
-                }
-                if (a == -1)
-                {
-                    WarningLbl.Text = "Ni zmagovalca !";
-                    WRITE_TO_CONSOLE();
-                    GameBox.Enabled = false;
-                }
-            }
-
-
-            GameBox.Enabled = true;
-
-        }
-
-        private void ResetBtn_Click(object sender, EventArgs e)
-        {
-            CLEAR();
-            GameBox.Enabled = false;
-        }
     }
 }

@@ -3,6 +3,7 @@
     internal class BoardState
     {
         private int[,] board;
+        public int[,] staticBoard { get; set; }
         private int ocena;
 
         public BoardState()
@@ -66,6 +67,11 @@
             this.ocena = ocenaMax - ocenaMin;
         }
 
+        public void setOnlyBoard(int [,]a)
+        {
+            this.board = (int[,])a.Clone();
+        }
+
         public void setBoard()
         { 
             this.board = new int[3, 3];
@@ -94,11 +100,11 @@
             this.ocena = ocena;
         }
 
-        /*
-        public int getOcena()
+        
+        public int getStaticOcena()
         {
             return ocena;
-        }*/
+        }
 
         public int getOcena()
         {
