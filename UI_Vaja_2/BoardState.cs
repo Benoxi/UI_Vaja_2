@@ -102,8 +102,8 @@
 
         public int getOcena()
         {
-            int ocenaMax = BoardHeuristics(this.board, 2);
-            int ocenaMin = BoardHeuristics(this.board, 1);
+            int ocenaMax = BoardHeuristics(this.board, 2); //koliko vrst ima MIN? 
+            int ocenaMin = BoardHeuristics(this.board, 1); //koliko vrst ima MAX? 
             return (ocenaMax - ocenaMin);
         }
 

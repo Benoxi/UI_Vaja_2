@@ -36,6 +36,7 @@
             this.Ycoord = new System.Windows.Forms.Label();
             this.WarningLbl = new System.Windows.Forms.Label();
             this.ResetBtn = new System.Windows.Forms.Button();
+            this.PlayAI = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GameBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -123,11 +124,22 @@
             this.ResetBtn.UseVisualStyleBackColor = true;
             this.ResetBtn.Click += new System.EventHandler(this.ResetBtn_Click);
             // 
+            // PlayAI
+            // 
+            this.PlayAI.Location = new System.Drawing.Point(675, 526);
+            this.PlayAI.Name = "PlayAI";
+            this.PlayAI.Size = new System.Drawing.Size(300, 40);
+            this.PlayAI.TabIndex = 8;
+            this.PlayAI.Text = "AI ONLY";
+            this.PlayAI.UseVisualStyleBackColor = true;
+            this.PlayAI.Click += new System.EventHandler(this.PlayAI_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.PlayAI);
             this.Controls.Add(this.ResetBtn);
             this.Controls.Add(this.WarningLbl);
             this.Controls.Add(this.Ycoord);
@@ -155,6 +167,7 @@
         private System.Windows.Forms.Label Ycoord;
         private System.Windows.Forms.Label WarningLbl;
         private System.Windows.Forms.Button ResetBtn;
+        private System.Windows.Forms.Button PlayAI;
     }
 }
 
